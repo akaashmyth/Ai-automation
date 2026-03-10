@@ -1,0 +1,2 @@
+# Ai-automation
+cursor automation
