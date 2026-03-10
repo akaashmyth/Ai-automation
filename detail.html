@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>任务 - 我的待办</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <h1 id="pageTitle">添加任务</h1>
+      <a href="list.html" class="link">返回列表</a>
+    </header>
+
+    <form class="task-form" id="taskForm">
+      <div class="form-group">
+        <label for="title">任务标题 <span class="required">*</span></label>
+        <input type="text" id="title" name="title" required placeholder="请输入任务标题">
+        <span class="error" id="titleError"></span>
+      </div>
+      <div class="form-group">
+        <label for="description">任务描述</label>
+        <textarea id="description" name="description" rows="4" placeholder="可选，描述任务详情"></textarea>
+      </div>
+      <div class="form-group" id="statusGroup" style="display: none;">
+        <label>
+          <input type="checkbox" id="completed" name="completed"> 已完成
+        </label>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">保存</button>
+        <button type="button" class="btn btn-danger" id="btnDelete" style="display: none;">删除任务</button>
+      </div>
+    </form>
+  </main>
+  <script src="js/app.js"></script>
+  <script>
+    (function() {
+      const params = new URLSearchParams(location.search);
+      const id = params.get('id');
+      const isEdit = !!id;
+      const form = document.getElementById('taskForm');
+      const titleEl = document.getElementById('title');
+      const titleError = document.getElementById('titleError');
+      const descEl = document.getElementById('description');
+      const completedEl = document.getElementById('completed');
+      const statusGroup = document.getElementById('statusGroup');
+      const btnDelete = document.getElementById('btnDelete');
+      const pageTitle = document.getElementById('pageTitle');
+
+      let task = null;
+      if (isEdit) {
+        task = TodoApp.getTaskById(id);
+        if (!task) {
+          alert('任务不存在');
+          location.href = 'list.html';
+          return;
+        }
+        pageTitle.textContent = '编辑任务';
+        titleEl.value = task.title;
+        descEl.value = task.description || '';
+        completedEl.checked = task.completed;
+        statusGroup.style.display = 'block';
+        btnDelete.style.display = 'inline-block';
+      }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        titleError.textContent = '';
+        const title = titleEl.value.trim();
+        if (!title) {
+          titleError.textContent = '标题不能为空';
+          titleEl.focus();
+          return;
+        }
+
+        if (isEdit) {
+          TodoApp.updateTask(id, {
+            title,
+            description: descEl.value.trim(),
+            completed: completedEl.checked
+          });
+        } else {
+          TodoApp.addTask({
+            title,
+            description: descEl.value.trim()
+          });
+        }
+        location.href = 'list.html';
+      });
+
+      btnDelete.addEventListener('click', () => {
+        if (confirm('确定要删除该任务吗？')) {
+          TodoApp.deleteTask(id);
+          location.href = 'list.html';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
