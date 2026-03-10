@@ -1,0 +1,42 @@
+# IDE
+.idea/
+backend/.idea/
+backend/target/
+backend/*.jar
+
+*.iml
+.vscode/
+
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Build output
+dist/
+frontend/dist/
+
+# Test coverage
+coverage/
+frontend/coverage/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# MCP config (contains tokens)
+.cursor/mcp.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Sass
+.sass-cache/
+*.css.map
+*.sass.map
+*.scss.map
