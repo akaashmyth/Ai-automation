@@ -26,6 +26,35 @@ body {
   line-height: 1.5;
 }
 
+.banner {
+  width: 100%;
+  background: #fff9c4;
+  color: #424242;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+}
+
+.banner-text {
+  font-size: 0.95rem;
+}
+
+.banner-action {
+  padding: 8px 14px;
+  border: 1px solid #d6cf95;
+  border-radius: var(--radius);
+  background: #fff;
+  color: #424242;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.banner-action:hover {
+  background: #f6efb7;
+}
+
 .container {
   max-width: 480px;
   margin: 0 auto;
@@ -291,6 +320,11 @@ body {
 
 /* 响应式 */
 @media (max-width: 400px) {
+  .banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
   .dashboard-cards {
     grid-template-columns: 1fr;
   }
